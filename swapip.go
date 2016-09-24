@@ -1,8 +1,17 @@
+/*
+ * Project: awsgo
+ * File: swapip.go
+ *
+ * Copyright (c) 2016 Sanjeewa Wijesundara
+ *
+ */
+
 package main
 
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -17,7 +26,13 @@ func main() {
 	instanceAZA := os.Getenv("AWS_INSTANCE_AZA")
 	instanceAZB := os.Getenv("AWS_INSTANCE_AZB")
 
-	fmt.Println("Checking instance status", primaryAllocation, " and ", instanceAZA)
+	fmt.Println("Checking configuration")
+
+	for _, e := range os.Environ() {
+		pair := strings.Split(e, "=")
+		fmt.Println(pair[0])
+	}
+
 	// Create an EC2 service object in the "ap-southeast-2" region
 	svc := ec2.New(session.New(), &aws.Config{Region: aws.String("ap-southeast-2")})
 
